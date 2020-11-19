@@ -3,6 +3,7 @@ title: "My First R Markdown"
 author: "Russ Bjork"
 date: "11/19/2020"
 output: pdf_document
+urlcolor: blue
 ---
 
 ```{r setup, include=FALSE}
@@ -20,6 +21,8 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 - bullet list *1*
 - bullet list **2**
 - bullet list ***3***
+
+Here is a link: [Google](www.google.com)
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
