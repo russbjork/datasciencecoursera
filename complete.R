@@ -1,15 +1,28 @@
-complete <- function(directory, id = 1:332) {
-  ## 'directory' is a character vector of length 1 indicating the location
-  ## of the CSV files.
+complete <- function(directory = 'specdata', id = 1:332) {
+    ## 'directory' is a character vector of length 1 indicating the location
+    ## of the CSV files.
   
-  ## 'id' is an integer vector indicating the monitor ID numbers to be used.
+    ## 'id' is an integer vector indicating the monitor ID numbers to be used.
   
-  ## Returns a data frame of the form:
-  ## id nobs
-  ## 1  117
-  ## 2  1041
-  ## ...
-  ## where 'id' is the monitor ID number and 'nobs' is the number of complete
-  ## cases.
+    ## Returns a data frame of the form:
+    ## id nobs
+    ## 1  117
+    ## 2  1041
+    ## ...
+    ## where 'id' is the monitor ID number and 'nobs' is the number of complete
+    ## cases.
+  
+    file_list <- list.files(directory, full.names=T)
+    data <- data.frame()
+  
+    for (i in id) {
+      monitors <- read.csv(file_list[i])
+      nobs <- sum(complete.cases(monitors))
+      temp <- data.frame(i, nobs)
+      data <- rbind(data, temp)
+    }
+  
+    colnames(data) <- c("id", "nobs")
+    data
   
 }
