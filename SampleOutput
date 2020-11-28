@@ -1,0 +1,32 @@
+head(features)
+  n         functions
+1 1 tBodyAcc-mean()-X
+2 2 tBodyAcc-mean()-Y
+3 3 tBodyAcc-mean()-Z
+4 4  tBodyAcc-std()-X
+5 5  tBodyAcc-std()-Y
+6 6  tBodyAcc-std()-Z
+head(activities)
+  code           activity
+1    1            WALKING
+2    2   WALKING_UPSTAIRS
+3    3 WALKING_DOWNSTAIRS
+4    4            SITTING
+5    5           STANDING
+6    6             LAYING
+head(subject_test)
+  subject
+1       2
+2       2
+3       2
+4       2
+5       2
+6       2
+head(subject_train)
+  subject
+1       1
+2       1
+3       1
+4       1
+5       1
+6       1

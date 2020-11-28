@@ -32,3 +32,30 @@ gdp<-fread("Data/getdata_data_GDP.csv",skip=5,nrows=190,select=c(1,2,4,5),col.na
 str(ed)
 str(gdp)
 merge(ed,gdp,by="CountryCode")
+##
+##
+##Load and split data frame
+library(dplyr)
+library(readr)   
+data<-read_csv("Data/getdata_data_ss06hid.csv")
+split(data,"wgtp")
+strsplit(names(data),"^wgtp")
+##
+##
+##Load and remove element from data frame
+library(dplyr)
+library(readr)
+library(data.table)
+data<-fread("Data/getdata_data_GDP.csv",skip=5,nrows=190,select=c(1,2,4,5),col.names=c("CountryCode","Rank","Economy","Total"))
+head(data)
+as.numeric(gsub("[,]", "", data$Total)) %>% mean()
+data$Economy[grep("^United",data$Economy)]
+##
+##
+##Load stock price data
+install.packages("quantmod")
+library(quantmod)
+amzn = getSymbols("AMZN",auto.assign=FALSE)
+sampleTimes = index(amzn)
+head(sampleTimes)
+amzn2012 <- sampleTimes[grep("^2012", sampleTimes)]
