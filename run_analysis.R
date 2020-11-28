@@ -41,7 +41,14 @@ names(FilteredData)<-gsub("^t", "Time", names(FilteredData))
 names(FilteredData)<-gsub("^f", "Frequency", names(FilteredData))
 names(FilteredData)<-gsub("tBody", "TimeBody", names(FilteredData))
 names(FilteredData)<-gsub("-mean()", "Mean", names(FilteredData), ignore.case = TRUE)
-names(FilteredData)<-gsub("-std()", "STD", names(FilteredData), ignore.case = TRUE)
+names(FilteredData)<-gsub("-std()", "STDDEV", names(FilteredData), ignore.case = TRUE)
 names(FilteredData)<-gsub("-freq()", "Frequency", names(FilteredData), ignore.case = TRUE)
 names(FilteredData)<-gsub("angle", "Angle", names(FilteredData))
 names(FilteredData)<-gsub("gravity", "Gravity", names(FilteredData))
+##
+## Create and write independent tidy data file
+##
+TidyData <- FilteredData %>%
+  group_by(Subject, Activity) %>%
+  summarise_all(funs(mean))
+write.table(TidyData, "TidyDataOutput.txt", row.name=FALSE)
