@@ -19,7 +19,7 @@ mrg<-merge(sub1,sub2,by="Year")
 ##
 ## Plot the data for the yearly emissions
 ##
-plot(mrg$Year,mrg$TotEms/1000,type="b",main="Total Emissions - Baltimore City",xlab="Year",ylab="Emissions PM2.5 (Thousands of pounds)",lwd=5,pch=19,col="blue")
+plot(mrg$Year,mrg$TotEms/1000,type="b",main="Total Emissions - Baltimore City",xlab="Year",ylab="Emissions PM2.5 (Thousands of Tons)",lwd=5,pch=19,col="blue")
 ##
 ## Saving Plot 2 to file
 ##

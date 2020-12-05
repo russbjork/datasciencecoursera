@@ -25,8 +25,8 @@ ggplot(sub0, aes(x = factor(year), y = Annual.Total, fill = type)) +
   geom_bar(stat = "identity") + 
   facet_grid(. ~ type) + 
   xlab("Year") + 
-  ylab("Emissions PM2.5") + 
-  ggtitle("                 Total Emissions by Source Type - Baltimore City") +
+  ylab("Emissions PM2.5 (Total Tons)") + 
+  ggtitle("             Total Emissions by Source Type - Baltimore City") +
   theme(axis.text.x=element_text(angle = 90, vjust = 0.5, hjust = 1)) +
   scale_y_continuous(labels = comma) +
   guides(fill = FALSE)
