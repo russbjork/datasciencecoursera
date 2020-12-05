@@ -32,7 +32,7 @@ ggplot(sub1vehicles, aes(x = factor(year), y = Annual.Total, fill = SCC.Level.Tw
   facet_grid(fips ~ SCC.Level.Two, labeller = label_wrap_gen(width = 25, multi_line = TRUE)) + 
   xlab("Year") +
   ylab(expression("Emissions PM2.5 (Total Tons)")) + 
-  ggtitle(expression(atop("Total Emissions from Motor Vehicle Sources", paste("Baltimore City & Los Angeles County")))) +
+  ggtitle(expression(atop("Total Emissions Motor Vehicle Sources", paste("Baltimore City & Los Angeles County")))) +
   theme(plot.title = element_text(hjust = 0.5)) + 
   # Center the plot title
   theme(plot.margin = unit(c(1,1,1,1), "cm")) + 
