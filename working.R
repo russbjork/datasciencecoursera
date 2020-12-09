@@ -88,6 +88,12 @@ dev.off()
 ## Transform the data limited to continental US only - NEW DATASET
 ## Data filtered/grouped and summarized for Property and Crop damage
 ##
+
+datatest <- rawdata %>% select(STATE,EVTYPE,PROPDMG,PROPDMGEXP) %>% filter(STATE %in% states) %>% 
+  mutate(MULTI = if_else(PROPDMGEXP == "", 1, if_else(PROPDMGEXP == "K", 1000, 
+  if_else(PROPDMGEXP == "M", 1000000, if_else(PROPDMGEXP == "B", 1000000000, as.numeric(NA))))))
+datatest
+
 dataprop <- rawdata %>% select(STATE,EVTYPE,PROPDMG,PROPDMGEXP) %>% filter(STATE %in% states) %>%
   select(EVTYPE,PROPDMG,PROPDMGEXP) %>% group_by(EVTYPE) %>% 
   summarize(PROPDMG=sum(PROPDMG)) %>%
