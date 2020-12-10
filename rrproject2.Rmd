@@ -221,4 +221,4 @@ Tornados caused the maximum number of Injuries followed by TSTM Wind.
 
 ### Property Damage -
 River Floods caused the maximum amount of Property Damage followed by Heavy Rain/Severe Weather.
-River Floods caused the maximum amount of Crop Damage followed by Draught.
+River Floods caused the maximum amount of Crop Damage followed by Ice Storms.
