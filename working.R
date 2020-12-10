@@ -22,8 +22,8 @@ download.file(url, temp)
 ## Read in raw data from URL
 ##
 ## Loading a smaller subset for development, comment out for final build
-rawdata <- read.csv(temp, nrows=250000)
-## rawdata <- read.csv(temp)
+## rawdata <- read.csv(temp, nrows=250000)
+rawdata <- read.csv(temp)
 
 ##
 ## Explore the raw data identify any potential issues
@@ -48,17 +48,17 @@ states <- c("AL","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS
 ## Data filtered/grouped and summarized for Fatalities and Injuries
 ##
 datafatal <- rawdata %>% select(STATE,EVTYPE,FATALITIES,INJURIES) %>% filter(STATE %in% states) %>%
-    select(EVTYPE,FATALITIES,INJURIES) %>% group_by(EVTYPE) %>% 
-    summarize(FATALITIES=sum(FATALITIES), INJURIES=sum(INJURIES)) %>%
-    arrange(desc(FATALITIES),desc(INJURIES)) %>% filter(FATALITIES!=0) %>% top_n(10)
+    select(EVTYPE,FATALITIES) %>% group_by(EVTYPE) %>% 
+    summarize(FATALITIES=sum(FATALITIES)) %>%
+    arrange(desc(FATALITIES)) %>% filter(FATALITIES!=0) %>% top_n(10)
 summary(datafatal)
 str(datafatal)
 datafatal
 
 datainjury <- rawdata %>% select(STATE,EVTYPE,FATALITIES,INJURIES) %>% filter(STATE %in% states) %>%
-    select(EVTYPE,FATALITIES,INJURIES) %>% group_by(EVTYPE) %>% 
-    summarize(FATALITIES=sum(FATALITIES), INJURIES=sum(INJURIES)) %>%
-    arrange(desc(INJURIES),desc(FATALITIES)) %>% filter(INJURIES!=0) %>% top_n(10)
+    select(EVTYPE,INJURIES) %>% group_by(EVTYPE) %>% 
+    summarize(INJURIES=sum(INJURIES)) %>%
+    arrange(desc(INJURIES)) %>% filter(INJURIES!=0) %>% top_n(10)
 summary(datainjury)
 str(datainjury)
 datainjury

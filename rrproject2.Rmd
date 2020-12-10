@@ -9,7 +9,7 @@ output: html_document
 <body style="background-color:LightSkyBlue;">
 
 # Synopsis:
-This assignment makes use of U.S. National Oceanic and Atmospheric Administration's (NOAA) storm database. This database tracks characteristics of major storms and weather events in the United States, including when and where they occur, as well as estimates of any fatalities, injuries, and property damage.  Storms and other severe weather events can cause both public health and economic problems for communities and municipalities. Many severe events can result in fatalities, injuries, and property damage, and preventing such outcomes to the extent possible is a key concern.
+This assignment makes use of the U.S. National Oceanic and Atmospheric Administration's (NOAA) storm database. This database tracks characteristics of major storms and weather events in the United States, including when and where they occur, as well as estimates of any fatalities, injuries, and property damage.  Storms and other severe weather events can cause both public health and economic problems for communities and municipalities. Many severe events can result in fatalities, injuries, and property damage, and preventing such outcomes to the extent possible is a key concern.
 
 This document presents the results from an analysis of the storm data across the Continental United States.  The storm events that are most harmful to population health will be summarized.  In addition, the storm events that have the greatest economic impact will be summarized.
 
@@ -89,22 +89,20 @@ states <- c("AL","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS
 ## Transform the data limited to continental US only - NEW DATASET
 ## Data filtered/grouped and summarized for Fatalities and Injuries
 ##
-datafatal <- rawdata %>% select(STATE,EVTYPE,FATALITIES,INJURIES) %>% 
-    filter(STATE %in% states) %>%
-    select(EVTYPE,FATALITIES,INJURIES) %>% group_by(EVTYPE) %>% 
-    summarize(FATALITIES=sum(FATALITIES), INJURIES=sum(INJURIES)) %>%
-    arrange(desc(FATALITIES),desc(INJURIES)) %>% filter(FATALITIES!=0) %>% 
-    top_n(10)
+datafatal <- rawdata %>% select(STATE,EVTYPE,FATALITIES,INJURIES) %>% filter(STATE %in% states) %>%
+    select(EVTYPE,FATALITIES) %>% group_by(EVTYPE) %>% 
+    summarize(FATALITIES=sum(FATALITIES)) %>%
+    arrange(desc(FATALITIES)) %>% filter(FATALITIES!=0) %>% top_n(10)
 summary(datafatal)
+str(datafatal)
 # Data limited to Cont US and reduced to top 10 drivers
 
-datainjury <- rawdata %>% select(STATE,EVTYPE,FATALITIES,INJURIES) %>% 
-    filter(STATE %in% states) %>%
-    select(EVTYPE,FATALITIES,INJURIES) %>% group_by(EVTYPE) %>% 
-    summarize(FATALITIES=sum(FATALITIES), INJURIES=sum(INJURIES)) %>%
-    arrange(desc(INJURIES),desc(FATALITIES)) %>% filter(INJURIES!=0) %>% 
-    top_n(10)
+datainjury <- rawdata %>% select(STATE,EVTYPE,FATALITIES,INJURIES) %>% filter(STATE %in% states) %>%
+    select(EVTYPE,INJURIES) %>% group_by(EVTYPE) %>% 
+    summarize(INJURIES=sum(INJURIES)) %>%
+    arrange(desc(INJURIES)) %>% filter(INJURIES!=0) %>% top_n(10)
 summary(datainjury)
+str(datainjury)
 # Data limited to Cont US and reduced to top 10 drivers
 
 ##
@@ -122,6 +120,7 @@ dataprop <- rawdata %>% select(STATE,EVTYPE,PROPDMG,PROPDMGEXP) %>%
     arrange(desc(PROPDMG2)) %>% filter(PROPDMG2!=0) %>% top_n(10)
 dataprop$PROPDMG2 <- round(dataprop$PROPDMG2,digits=2)
 summary(dataprop)
+str(dataprop)
 
 datacrop <- rawdata %>% select(STATE,EVTYPE,CROPDMG,CROPDMGEXP) %>% 
     filter(STATE %in% states) %>%
@@ -134,6 +133,8 @@ datacrop <- rawdata %>% select(STATE,EVTYPE,CROPDMG,CROPDMGEXP) %>%
     arrange(desc(CROPDMG2)) %>% filter(CROPDMG2!=0) %>% top_n(10)
 datacrop$CROPDMG2 <- round(datacrop$CROPDMG2,digits=2)
 summary(datacrop)
+str(datacrop)
+
 # Property and Crop damage exponent transformed to numeric multiplier.  
 # All non-specified exponent identifiers were defaulted to a factor 1.
 # Damage dollars calculated to the actual amount then reduced to millions.
@@ -216,9 +217,9 @@ dev.off()
 
 ## Summary:
 ### Health Damage -
-Tornados caused the maximum number of Fatalities followed by Heat.
-Tornados caused the maximum number of Injuries followed by TSTM Wind.
+Tornados caused the maximum number of Fatalities followed by Excessive Heat.  
+Tornados caused the maximum number of Injuries followed by TSTM Wind.  
 
 ### Property Damage -
-River Floods caused the maximum amount of Property Damage followed by Heavy Rain/Severe Weather.
-River Floods caused the maximum amount of Crop Damage followed by Ice Storms.
+Hurricane/Typhoons caused the maximum amount of Property Damage followed by Storm Surge.  
+Floods caused the maximum amount of Crop Damage followed by River Floods.  
