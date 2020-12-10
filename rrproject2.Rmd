@@ -1,0 +1,224 @@
+---
+title: "Reproducible Research - Project 2"
+subtitle: "Analysis of NOAA Storm Data and Resulting Damage"
+author: "Russ Bjork"
+date: "12/10/2020"
+output: html_document
+---
+
+<body style="background-color:LightSkyBlue;">
+
+# Synopsis:
+This assignment makes use of U.S. National Oceanic and Atmospheric Administration's (NOAA) storm database. This database tracks characteristics of major storms and weather events in the United States, including when and where they occur, as well as estimates of any fatalities, injuries, and property damage.  Storms and other severe weather events can cause both public health and economic problems for communities and municipalities. Many severe events can result in fatalities, injuries, and property damage, and preventing such outcomes to the extent possible is a key concern.
+
+This document presents the results from an analysis of the storm data across the Continental United States.  The storm events that are most harmful to population health will be summarized.  In addition, the storm events that have the greatest economic impact will be summarized.
+
+## Environment setup and configuration
+```{r echo=TRUE}
+## 
+## Reproducible Research - Project 2
+##
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=12, fig.height=10)
+```
+
+
+# Data Processing:
+
+## The Data:
+The data for this assignment come in the form of a comma-separated-value file compressed via the bzip2 algorithm to reduce its size.
+
+Storm Data [47Mb] There is also some documentation of the database available. The links provide access to the data and the variables as they were constructed/defined.
+
+[National Weather Service Storm Data Documentation](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf)
+
+[National Climatic Data Center Storm Events FAQ](https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2FNCDC%20Storm%20Events-FAQ%20Page.pdf)
+
+The events in the database start in the year 1950 and end in November 2011. In the earlier years of the database there are generally fewer events recorded, most likely due to a lack of good records. More recent years should be considered more complete.
+Code that is needed to load and process the NOAA storm data. 
+
+## The Analysis Questions:
+The basic goal of this assignment is to explore the NOAA Storm Database and answer the following basic questions about severe weather events.
+
+1. Across the United States, which types of events (as indicated in the EVTYPE variable) are most harmful with respect to population health?
+
+2. Across the United States, which types of events have the greatest economic consequences?
+
+## **1. Load the data**  
+```{r echo=TRUE}
+## Read in raw data from the NOAA storm data URL
+url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2"
+temp <- tempfile()
+download.file(url, temp)
+## Loading a smaller subset for development, comment out for final build
+## rawdata <- read.csv(temp, nrows=250000)
+rawdata <- read.csv(temp)
+```
+
+- Explore the raw data identify any potential issue requiring Tidying
+```{r echo=TRUE}
+head(rawdata)
+str(rawdata)
+summary(rawdata)
+unique(rawdata$STATE)
+unique(rawdata$FATALITIES)
+unique(rawdata$INJURIES)
+sort(unique(rawdata$PROPDMG),decreasing = TRUE)
+unique(rawdata$PROPDMGEXP) 
+# Many values outside the specification, those will all be set to factor = 1
+sort(unique(rawdata$CROPDMG),decreasing = TRUE)
+unique(rawdata$CROPDMGEXP) 
+# Many values outside the specification, those will all be set to factor = 1
+```
+
+- Create a vector for the states in the Continental United States
+```{r echo=TRUE}
+states <- c("AL","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS","KY","LA",
+            "ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND", 
+            "OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY")
+```
+<p style="color:red;"><b>NOTE: The decision was made to limit this study to only states in the Continental United States.  The raw data contained several provinces that were removed.</b></p> 
+
+## **2. Process/transform the data**  
+```{r echo=TRUE}
+##
+## Transform the data limited to continental US only - NEW DATASET
+## Data filtered/grouped and summarized for Fatalities and Injuries
+##
+datafatal <- rawdata %>% select(STATE,EVTYPE,FATALITIES,INJURIES) %>% 
+    filter(STATE %in% states) %>%
+    select(EVTYPE,FATALITIES,INJURIES) %>% group_by(EVTYPE) %>% 
+    summarize(FATALITIES=sum(FATALITIES), INJURIES=sum(INJURIES)) %>%
+    arrange(desc(FATALITIES),desc(INJURIES)) %>% filter(FATALITIES!=0) %>% 
+    top_n(10)
+summary(datafatal)
+# Data limited to Cont US and reduced to top 10 drivers
+
+datainjury <- rawdata %>% select(STATE,EVTYPE,FATALITIES,INJURIES) %>% 
+    filter(STATE %in% states) %>%
+    select(EVTYPE,FATALITIES,INJURIES) %>% group_by(EVTYPE) %>% 
+    summarize(FATALITIES=sum(FATALITIES), INJURIES=sum(INJURIES)) %>%
+    arrange(desc(INJURIES),desc(FATALITIES)) %>% filter(INJURIES!=0) %>% 
+    top_n(10)
+summary(datainjury)
+# Data limited to Cont US and reduced to top 10 drivers
+
+##
+## Transform the data limited to continental US only - NEW DATASET
+## Data filtered/grouped and summarized for Property and Crop damage
+##
+dataprop <- rawdata %>% select(STATE,EVTYPE,PROPDMG,PROPDMGEXP) %>% 
+    filter(STATE %in% states) %>%
+    mutate(MULTI = if_else(PROPDMGEXP == "", 1, if_else(PROPDMGEXP == "K", 1000, 
+    if_else(PROPDMGEXP == "M", 1000000, if_else(PROPDMGEXP == "B", 1000000000, 
+    as.numeric(NA)))))) %>%
+    mutate(PROPDMG2 = PROPDMG * MULTI) %>% 
+    select(STATE,EVTYPE,PROPDMG2) %>%  group_by(EVTYPE) %>% 
+    summarize(PROPDMG2=sum(PROPDMG2)/1000000) %>%
+    arrange(desc(PROPDMG2)) %>% filter(PROPDMG2!=0) %>% top_n(10)
+dataprop$PROPDMG2 <- round(dataprop$PROPDMG2,digits=2)
+summary(dataprop)
+
+datacrop <- rawdata %>% select(STATE,EVTYPE,CROPDMG,CROPDMGEXP) %>% 
+    filter(STATE %in% states) %>%
+    mutate(MULTI = if_else(CROPDMGEXP == "", 1, if_else(CROPDMGEXP == "K", 1000, 
+    if_else(CROPDMGEXP == "M", 1000000, if_else(CROPDMGEXP == "B", 1000000000, 
+    as.numeric(NA)))))) %>%
+    mutate(CROPDMG2 = CROPDMG * MULTI) %>% 
+    select(STATE,EVTYPE,CROPDMG2) %>% group_by(EVTYPE) %>% 
+    summarize(CROPDMG2=sum(CROPDMG2)/1000000) %>%
+    arrange(desc(CROPDMG2)) %>% filter(CROPDMG2!=0) %>% top_n(10)
+datacrop$CROPDMG2 <- round(datacrop$CROPDMG2,digits=2)
+summary(datacrop)
+# Property and Crop damage exponent transformed to numeric multiplier.  
+# All non-specified exponent identifiers were defaulted to a factor 1.
+# Damage dollars calculated to the actual amount then reduced to millions.
+# Data limited to Cont US and reduced to top 10 drivers
+```
+
+
+# Results:
+The summarized NOAA storm datasets transformed into point/line plots.  
+
+## **1. Build the plot for the fatal event storm data**  
+```{r echo=TRUE}
+## Basic scatter plot of fatalities by event type
+fplot <- ggplot(datafatal, aes(reorder(EVTYPE, -FATALITIES), y=FATALITIES)) +
+    geom_line(color="blue",group=1) +
+    geom_point(color="black",size=2) +
+    geom_text(aes(label=FATALITIES),vjust=0,hjust=0,size=3,nudge_x=0.2,nudge_y=0.2) +
+    labs(title="Fatalities by Event Type - (Top 10)",x="Event Type",y="Fatatilies") +
+    theme(plot.title.position='plot',plot.title=element_text(hjust=0.5)) +
+    theme(axis.text.x = element_text(angle=20,vjust=1,hjust=1))
+```
+
+## **2. Build the plot for the injury event storm data**  
+```{r echo=TRUE}
+# Basic scatter plot of injuries by event type
+iplot <- ggplot(datainjury, aes(reorder(EVTYPE, -INJURIES), y=INJURIES)) +
+    geom_line(color="blue",group=1) +
+    geom_point(color="black",size=2) +
+    geom_text(aes(label=INJURIES),vjust=0,hjust=0,size=3,nudge_x=0.2,nudge_y=0.2) +
+    labs(title="Injuries by Event Type - (Top 10)",x="Event Type",y="Injuries") +
+    theme(plot.title.position='plot',plot.title=element_text(hjust = 0.5)) +
+    theme(axis.text.x = element_text(angle=20,vjust=1,hjust=1))
+```
+
+## **3. Render and save the health impacting storm events plots **  
+<p style="color:red;"><b>NOTE: Displaying the top 10 event drivers</b></p> 
+```{r echo=TRUE}
+# Combine the two seperate plots
+ggarrange(fplot, iplot, ncol = 1, nrow = 2)
+
+# Output the plot to file
+dev.copy(png, file="plot1.png", height=640, width=720)
+dev.off()
+```
+
+## **4. Build the plot for the property damage event storm data**  
+```{r echo=TRUE}
+## Basic scatter plot of property damage by event type
+pplot <- ggplot(dataprop, aes(reorder(EVTYPE, -PROPDMG2), y=PROPDMG2)) +
+    geom_line(color="blue",group=1) +
+    geom_point(color="black",size=2) +
+    geom_text(aes(label=PROPDMG2),vjust=0,hjust=0,size=3,nudge_x=0.2,nudge_y=0.2) +
+    labs(title="Financial Property Damage by Event Type - (Top 10)",x="Event Type",y="Property Damage $Millions") +
+    theme(plot.title.position='plot',plot.title=element_text(hjust=0.5)) +
+    theme(axis.text.x = element_text(angle=20,vjust=1,hjust=1))
+```
+
+## **5. Build the plot for the crop damage event storm data**  
+```{r echo=TRUE}
+# Basic scatter plot of crop damage by event type
+cplot <- ggplot(datacrop, aes(reorder(EVTYPE, -CROPDMG2), y=CROPDMG2)) +
+    geom_line(color="blue",group=1) +
+    geom_point(color="black",size=2) +
+    geom_text(aes(label=CROPDMG2),vjust=0,hjust=0,size=3,nudge_x=0.2,nudge_y=0.2) +
+    labs(title="Financial Crop Damage by Event Type - (Top 10)",x="Event Type",y="Crop Damage $Millions") +
+    theme(plot.title.position='plot',plot.title=element_text(hjust = 0.5)) +
+    theme(axis.text.x = element_text(angle=20,vjust=1,hjust=1))
+```
+
+## **6. Render and save the economic impacting storm events plots **  
+<p style="color:red;"><b>NOTE: Displaying the top 10 event driver</b></p> 
+```{r echo=TRUE}
+# Combine the two seperate plots
+ggarrange(pplot, cplot, ncol = 1, nrow = 2)
+
+# Output the plot to file
+dev.copy(png, file="plot2.png", height=640, width=720)
+dev.off()
+```
+
+## Summary:
+### Health Damage -
+Tornados caused the maximum number of Fatalities followed by Heat.
+Tornados caused the maximum number of Injuries followed by TSTM Wind.
+
+### Property Damage -
+River Floods caused the maximum amount of Property Damage followed by Heavy Rain/Severe Weather.
+River Floods caused the maximum amount of Crop Damage followed by Draught.
