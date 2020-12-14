@@ -9,13 +9,14 @@ output: pdf_document
 <body style="background-color:LightSkyBlue;">
 
 # Overview:
-In this part of the project, we will analyze the dataset ToothGrowth. This dataset is made of 60 observations of tooth growth of Guinea pigs and the effect of dose of vitamin C on the growth. The delivery method is a two-values factor variable : “OJ” (Orange Juice) and VC (Ascorbi Acid, a form of Vitamin C). The dose given contains three different values : 0.5, 1, and 2 mg/day. The measures are done on 10 Guinea pigs.
+Part 2 of the Statistical Inference project will focus on analyzing the ToothGrowth dataset.  This dataset is made of 60 observations of tooth growth of Guinea pigs and the   effect of dose of vitamin C on the growth. The delivery method is a two-values factor variable : “OJ” (Orange Juice) and VC (Ascorbi Acid, a form of Vitamin C). The dose   given contains three different values : 0.5, 1, and 2 mg/day. The measures are done on 10 Guinea pigs.  
 
 ## Environment setup and configuration
 ```{r echo=TRUE}
 ## 
 ## Statistical Inference - Project
 ##
+library(datasets)
 library(dplyr)
 library(ggplot2)
 library(ggpubr)
@@ -25,6 +26,16 @@ knitr::opts_chunk$set(fig.width=12, fig.height=10)
 ```
 
 # Load and Explore the Data:
+Load the dataframe and review the data layout and date types  
+```{r echo=TRUE}
+str(ToothGrowth)
+data(ToothGrowth)
+head(ToothGrowth)
+```
+Check if there are NA values and display the summary information for this dataset  
+```{r echo=TRUE}
+sum(!complete.cases(ToothGrowth))
+```
 
 # Basic Summary of the Data:
 
