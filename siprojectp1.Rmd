@@ -1,0 +1,91 @@
+---
+title: "Statistical Inference - Project"
+subtitle: "Part 1: A simulation exercise"
+author: "Russ Bjork"
+date: "12/13/2020"
+output: pdf_document
+---
+
+<body style="background-color:LightSkyBlue;">
+
+# Overview:
+In the first part of the project, we will investigate the behavior of means for exponential distribution in R and compare it with the expected distribution obtained by   Central Limit Theorem. The exponential distribution can be simulated in R with rexp(n, lambda) where lambda is the rate parameter. The mean of exponential distribution is   1/lambda and the standard deviation is also 1/lambda. Set lambda = 0.2 for all of the simulations. You will investigate the distribution of averages of 40 exponentials.   First we draw the histogram of 1000 random exponential values. Let us call this distribution X. For the mean distribution, we will consider a mean of n=40 exponential   random values. Let us call YY this distribution of means.  
+
+## Environment setup and configuration
+```{r echo=TRUE}
+## 
+## Statistical Inference - Project
+##
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=12, fig.height=10)
+```
+
+# Simulations:
+Sample distribution of exponential values  
+```{r echo=TRUE}
+set.seed(1)
+lambda = 0.2
+x <-rexp(1000, rate = lambda)
+hist(x,main="Plot 1 : Histogram of 1000 exponentials",xlim=c(0,35),ylim=c(0,0.2),freq=FALSE)
+abline(v=mean(x),col = "blue", lwd = 2)
+abline(v=1/lambda,col = "red", lw = 2) 
+text(8,0.18,expression(1/lambda == 5), col = "red")
+text(8,0.16,expression(mean(x) == 5.156), col = "blue")
+```
+
+# Sample Mean versus Theoretical Mean:
+Comparison of the theoritical values and the real values obtained for this sample  
+```{r echo=TRUE}
+print(mean(x))
+print(sd(x))
+print(var(x))
+```
+•	Mean : theoritical = 1/lambda = 5, real value = mean(x) = 5.156513, **disparity = 3.13%**   
+•	Standard deviation : theoritical = 1/lambda = 5, real value = sd(x) = 4.94629, **disparity = -1.07%**  
+•	Variance : theoritical = 1/lambda = 25, real value = var(x) = 24.464583, **disparity = -2.14%**  
+
+Based on plot1 and plot2:  
+Theoritical Mean vs Sample Mean : Although the two figures are really different, we can notice that both means are very similar (around 5) : the first figure gives a   histogram of frequencies, and the second a histogram of densities. Furthermore, in Figure 2, the repartition of values is not the same on both sides of the mean, but the   mean is very similar.  
+
+# Sample Variance versus Theoretical Variance:
+Based on plot1 and plot2:  
+Theoritical variance vs Sample Variance : We can notice that the larger n is, the more the variance of the mean distribution is low, that means that the sample is more   concentrated arouns the mean. This can be easily deducted from figures 1 and 2. In figure 1, we have nn = 1, and the dispersion of the values is very large, whereas in   figure 2 (nn = 40), the dispersion is much lower.  
+
+# Distribution: 
+Sample distribution of mean of 40 exponential values  
+
+Below we draw a distibution of 1000 means of random exponential values, each mean built on 40 random exponential values.   
+The blue thick line represents the mean of the exponential distribution.   
+The green curve is the corresponding theoritical limit, which is a normal distribution.  
+```{r echo=TRUE}
+rate = 0.2
+mns = NULL
+size=40
+for (i in 1 : 1000) mns = c(mns, mean(rexp(size,rate=lambda)))
+hist(mns, main ="Plot 2 : Histogram of 1000 means of 40 exponentials", xlab="Y",freq=FALSE) # histogram of the density 
+abline(v=5,col="blue", lwd=2)
+curve(dnorm(x, mean=1/lambda, sd=1/lambda/sqrt(size)), col="green", lwd=2, add=TRUE, yaxt="n")
+```
+
+```{r echo=TRUE}
+moy <- mean(mns)
+sd_mns <- sd(mns)
+print(moy)
+print(sd_mns)
+```
+
+• Theoritical value of mean : 1/(lambda)(Lambda) = 5, real value = 4.9889
+•	Theoritical value of standard deviation : stdev = 0.79057, real value = 0.7901.
+•	The percent of values that contain the mean are the following :
+o	1 stdev = 68.27%
+o	2 stdev = 95.45%
+o	3 stdev = 99.75%
+For the real value, we get the same set of percentages. This can be obtained by computing the quantiles using mean(x) and sd(x).
+
+
+Based on plot1 and plot2:  
+Standard exponential distribution vs mean distribution : from plots 1 and 2, the distributions are very different : the density of exponential is a decreasing function,   that has 0 as a limit as x goes to infinity, whereas the density of mean is a bell curve, which is dense around the mean. This confirms our expectations on the fact that   the larger the sample is (the value of n), the more the behaviour is converging to a normal distribution, and that the distribution of means converges to a normal   distribution.  

@@ -1,0 +1,33 @@
+---
+title: "Statistical Inference - Project"
+subtitle: "Part 2: Basic inferential data analysis"
+author: "Russ Bjork"
+date: "12/13/2020"
+output: pdf_document
+---
+
+<body style="background-color:LightSkyBlue;">
+
+# Overview:
+In this part of the project, we will analyze the dataset ToothGrowth. This dataset is made of 60 observations of tooth growth of Guinea pigs and the effect of dose of vitamin C on the growth. The delivery method is a two-values factor variable : “OJ” (Orange Juice) and VC (Ascorbi Acid, a form of Vitamin C). The dose given contains three different values : 0.5, 1, and 2 mg/day. The measures are done on 10 Guinea pigs.
+
+## Environment setup and configuration
+```{r echo=TRUE}
+## 
+## Statistical Inference - Project
+##
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=12, fig.height=10)
+```
+
+# Load and Explore the Data:
+
+# Basic Summary of the Data:
+
+# Confidence Intervals/Hypothesis Tests Comparing Tooth Growth by Supp and Dose:
+
+# Conclusions and Assumptions:
