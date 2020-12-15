@@ -37,8 +37,45 @@ Check if there are NA values and display the summary information for this datase
 sum(!complete.cases(ToothGrowth))
 ```
 
-# Basic Summary of the Data:
+# Basic Summary of the Data and Plotting Key Variables:
+Process a summary of the ToothGrowth data  
+```{r echo=TRUE}
+summary(ToothGrowth)
+ToothGrowth$dose <- as.factor(ToothGrowth$dose)
+ggplot(ToothGrowth, aes(x=dose, y=len,fill=dose)) +  geom_boxplot() +  ggtitle("Fig. 1 : dispersion of tooth growth by dose") + xlab("dose in mg") + ylab("tooth length")
+```
+We can see that the higher the dose is, the longer the teeth are. We can notice that for a dose of 1 mg, the mean is nearly   twice than for dose 0.5 mg. The progression is then lower when the dose is 2 mg. The position of the boxes are really   different; this is a first clue for suggesting that the tooth length depends a lot of the dose.  
+
+Let’s now look at the influence of the delivery method.  
+```{r echo=TRUE}
+ggplot(ToothGrowth, aes(x=supp, y=len,fill=supp)) +  geom_boxplot() +  ggtitle("Dispersion of tooth growth by delivery method") + xlab("delivery method") + ylab("tooth length")
+```
+The boxes are quite similar. However, the median is much higher for Orange Juice than for Vitamin C; that means that for   Orange Juice, the high values are more numerous than the low values, in comparison with Vitamin C.  
 
 # Confidence Intervals/Hypothesis Tests Comparing Tooth Growth by Supp and Dose:
+Now we will test if the delivery mode has an influence on the tooth growth. nul hypothesis H0 could be formulated as follows :  
+**H0 : The delivery mode of Vitamin C does not have any influence on the tooth growth**
+```{r echo=TRUE}
+dose <- ToothGrowth$dose
+supp <- ToothGrowth$supp
+len <-  ToothGrowth$len
+
+t.test(len[supp == "VC"],len[supp == "OJ"], paired=FALSE)
+```
+This first test shows the following :
+- The p-value is 0.06, i.e. nearly the significance level αα = 0.05. So we do not reject the null hypothesis,  
+but as 0.05 <= 0.05 <= p-value <= 0.1 <= 0.1, it is not clearly obvious that we can reject the null hypothesis.  
+- The confidence interval contains 0, so the test is not really significant.  
+Now let’s try to test the influence of the dose on the tooth growth  
+```{r echo=TRUE}
+t.test(len[dose == 0.5],len[dose == 1], paired=FALSE)
+```
+This test shows that the quantity of Vitamin C has an impact on the tooth growth :  
+- The p-value is nearly 0, so we can obviously reject H0  
+- The confidence interval does not contain 0.  
+An identical conclusion can be taken comparing the length of dose = 1 and dose = 2.   
+This could already be detected from the boxplot above.    
 
 # Conclusions and Assumptions:
+- The dose of Vitamin C is clearly a factor of growth of the teeth for Guinea pigs.  
+- The delivery mode (Ascorbic Acid or Orange Juice) does not have any obvious impact on the teeth growth for Guinea pigs.  
