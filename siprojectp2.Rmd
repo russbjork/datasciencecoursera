@@ -9,7 +9,7 @@ output: pdf_document
 <body style="background-color:LightSkyBlue;">
 
 # Overview:
-Part 2 of the Statistical Inference project will focus on analyzing the ToothGrowth dataset.  This dataset is made of 60 observations of tooth growth of Guinea pigs and the   effect of dose of vitamin C on the growth. The delivery method is a two-values factor variable : “OJ” (Orange Juice) and VC (Ascorbi Acid, a form of Vitamin C). The dose   given contains three different values : 0.5, 1, and 2 mg/day. The measures are done on 10 Guinea pigs.  
+Part 2 of the Statistical Inference project will focus on analyzing the ToothGrowth dataset.  This dataset is made of 60 observations of the tooth growth of Guinea pigs and the effect of a dose of vitamin C on the growth. The delivery method is a two-values factor variable : OJ (Orange Juice) and VC (Ascorbi Acid, as a form of Vitamin C). The dose given contains three different values : 0.5, 1, and 2 mg/day. The measures are done on 10 Guinea pigs.  
 
 ## Environment setup and configuration
 ```{r echo=TRUE}
@@ -42,18 +42,24 @@ Process a summary of the ToothGrowth data
 ```{r echo=TRUE}
 summary(ToothGrowth)
 ToothGrowth$dose <- as.factor(ToothGrowth$dose)
-ggplot(ToothGrowth, aes(x=dose, y=len,fill=dose)) +  geom_boxplot() +  ggtitle("Fig. 1 : dispersion of tooth growth by dose") + xlab("dose in mg") + ylab("tooth length")
+ggplot(ToothGrowth, aes(x=dose, y=len,fill=dose)) +  
+    geom_boxplot() +  
+    ggtitle("Plot 1: Dispersion of tooth growth by dose") + 
+    xlab("dose in mg") + ylab("tooth length")
 ```
-We can see that the higher the dose is, the longer the teeth are. We can notice that for a dose of 1 mg, the mean is nearly   twice than for dose 0.5 mg. The progression is then lower when the dose is 2 mg. The position of the boxes are really   different; this is a first clue for suggesting that the tooth length depends a lot of the dose.  
+The summary data shows that the higher the dose is, the longer the teeth are. It is also observed that for a dose of 1 mg, the mean is nearly twice that of a dose of 0.5 mg. The progression is observed to be lower when the dose is 2 mg. The position of the boxes are really different; this is a first clue for suggesting that the tooth length depends a lot of the dose.  
 
-Let’s now look at the influence of the delivery method.  
+The following plot shows the influence of the delivery method.  
 ```{r echo=TRUE}
-ggplot(ToothGrowth, aes(x=supp, y=len,fill=supp)) +  geom_boxplot() +  ggtitle("Dispersion of tooth growth by delivery method") + xlab("delivery method") + ylab("tooth length")
+ggplot(ToothGrowth, aes(x=supp, y=len,fill=supp)) +  
+    geom_boxplot() +  
+    ggtitle("Plot 2: Dispersion of tooth growth by delivery method") + 
+    xlab("delivery method") + ylab("tooth length")
 ```
-The boxes are quite similar. However, the median is much higher for Orange Juice than for Vitamin C; that means that for   Orange Juice, the high values are more numerous than the low values, in comparison with Vitamin C.  
+The boxes are quite similar. However, the median is much higher for Orange Juice than for Vitamin C; that means that for Orange Juice, the high values are observed more frequently than the low values, in comparison with Vitamin C.  
 
 # Confidence Intervals/Hypothesis Tests Comparing Tooth Growth by Supp and Dose:
-Now we will test if the delivery mode has an influence on the tooth growth. nul hypothesis H0 could be formulated as follows :  
+A T test is used to determine if the delivery mode has an influence on the tooth growth. The nul hypothesis H0 could be formulated as follows:  
 **H0 : The delivery mode of Vitamin C does not have any influence on the tooth growth**
 ```{r echo=TRUE}
 dose <- ToothGrowth$dose
@@ -62,18 +68,22 @@ len <-  ToothGrowth$len
 
 t.test(len[supp == "VC"],len[supp == "OJ"], paired=FALSE)
 ```
-This first test shows the following :
+The T test shows the following:    
+
 - The p-value is 0.06, i.e. nearly the significance level lambda = 0.05. So we do not reject the null hypothesis,  
 but as 0.05 <= 0.05 <= p-value <= 0.1 <= 0.1, it is not clearly obvious that we can reject the null hypothesis.  
-- The confidence interval contains 0, so the test is not really significant.  
-Now let’s try to test the influence of the dose on the tooth growth  
+- The confidence interval contains 0, so the test is not really significant.
+
+The next T test is generated to test the influence of the dose on the tooth growth  
 ```{r echo=TRUE}
 t.test(len[dose == 0.5],len[dose == 1], paired=FALSE)
 ```
-This test shows that the quantity of Vitamin C has an impact on the tooth growth :  
+This test shows that the quantity of Vitamin C has an impact on the tooth growth:    
+
 - The p-value is nearly 0, so we can obviously reject H0  
 - The confidence interval does not contain 0.  
-An identical conclusion can be taken comparing the length of dose = 1 and dose = 2.   
+
+An identical conclusion can be taken comparing the length of dose = 1 and dose = 2.    
 This could already be detected from the boxplot above.    
 
 # Conclusions and Assumptions:
