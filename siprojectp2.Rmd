@@ -63,7 +63,7 @@ len <-  ToothGrowth$len
 t.test(len[supp == "VC"],len[supp == "OJ"], paired=FALSE)
 ```
 This first test shows the following :
-- The p-value is 0.06, i.e. nearly the significance level αα = 0.05. So we do not reject the null hypothesis,  
+- The p-value is 0.06, i.e. nearly the significance level lambda = 0.05. So we do not reject the null hypothesis,  
 but as 0.05 <= 0.05 <= p-value <= 0.1 <= 0.1, it is not clearly obvious that we can reject the null hypothesis.  
 - The confidence interval contains 0, so the test is not really significant.  
 Now let’s try to test the influence of the dose on the tooth growth  
