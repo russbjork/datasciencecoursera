@@ -5,7 +5,7 @@ date: "12/22/2020"
 output: html_document
 ---
 
-<body style="background-color:LightSkyBlue;">
+<body style="background-color:SkyBlue;">
 
 ## Environment Setup
 ```{r echo=TRUE}
@@ -21,11 +21,11 @@ knitr::opts_chunk$set(fig.width=12, fig.height=10)
 
 
 ## Exec Summary:
-Motor Trend, a magazine about the automobile industry, is interested in exploring the relationship between a set of variables and miles per gallon (MPG).  In this project we will look at a data set of a collection of cars, exploring the relationship between a set of variables and miles per gallon (MPG) (outcome). This analysis is a focused assessment of the following two questions:
+Motor Trend, a magazine about the automobile industry, is interested in exploring the relationship between a set of variables and miles per gallon (MPG).  In this project we will look at a data set of a collection of cars, exploring the relationship between a set of variables and miles per gallon (MPG). This   analysis is a focused assessment of the following two questions:  
 
-Is an automatic or manual transmission produce better miles per gallon (MPG) performance?
-Is there a significant MPG difference between automatic and manual transmissions?
-Linear regression analysis will be utilized to determine if there is a significant difference between the mean MPG for automatic and manual transmission cars. Data will be analyzed to determine if a Manual transmission can achieve a higher value of MPG compared to automatic transmission. The MPG will be quantified when switching from an automatic transmission to a manual one, with the weight, horsepower and displacement held constant. 
+***Does an automatic or manual transmission produce better miles per gallon (MPG) performance?***    
+***Is there a significant MPG difference between automatic and manual transmissions?***    
+A linear regression analysis will be utilized to determine if there is a significant difference between the mean MPG for automatic vs a manual transmission   car.  Data will be analyzed to determine if a Manual transmission car can achieve a higher value of MPG compared to automatic transmission car. The MPG will    be quantified when switching from an automatic transmission to a manual transmission, with the weight, horsepower and displacement held constant.     
 
 
 
@@ -42,11 +42,11 @@ cyl  <- factor(mtcars$cyl)
 vs   <- factor(mtcars$vs) 
 gear <- factor(mtcars$gear) 
 carb <- factor(mtcars$carb) 
-am   <- factor(mtcars$am,labels=c("Automatic","Manual")) 
+am   <- factor(mtcars$am,labels=c("Automatic","Manual"))
 ```
 
 
-### The range of the variable mpg and its quantiles: 
+### The range of the variable MPG and its quantiles: 
 ```{r echo=TRUE}
 summary(mtcars$mpg)
 ```
@@ -69,9 +69,9 @@ Plot 1 in the Appendix is a visual presentation of the mtcars dataset.  The plot
 
 
 ## Regression analysis:
-Table 1 in the Appendix demonstrates that there is a significant difference in the mean of “mpg” for automatic transmission with a mean of 17.15 and manual transmission with a mean of 24.39. 
+Table 1 in the Appendix demonstrates that there is a significant difference in the mean of MPG for automatic transmission with a mean of 17.15 and manual transmission with a mean of 24.39. 
 
-### The correlations of mpg to the other variables of mtcars are shown below:
+### The correlations of MPG to the other variables of mtcars are shown below:
 ```{r echo=TRUE}
 cor(mtcars$mpg, mtcars$am, method = "pearson") #Transmission type
 cor(mtcars$mpg, mtcars$wt, method = "pearson") #Weight
@@ -88,10 +88,10 @@ mod4 <- lm(mpg ~ am + wt + hp + disp, data = mtcars)
 mod5 <- lm(mpg ~ ., data = mtcars)  
 ```
 
-The variable mpg is analyzed as a function of the variable am.  Each subsequent variable is added one after another and processed using the ANOVA routine (see the Anova section below) to find the simplest model.  This helps explains significantly the change in mpg. The variable cyl variable is omitted for its high correlation with the variable disp. By adding the variables wt and hp to the model,  the model is significantly improved, model3 is utilized in Plot 4. Plot 3 in the Appendix demonstrates the correlations of the four variables in the preferred model. Table 2 in the Appendix is a summary of model 3 that explains about 84% of the variability of the variable mpg.
+The variable MPG is analyzed as a function of the variable am (automatic/manual transmission).  Each subsequent variable is added one after another and   processed using the ANOVA routine (see the Anova section below) to find the simplest model.  This helps explains significantly the change in MPG. The variable   cyl variable is omitted for its high correlation with the variable disp. By adding the variables wt and hp to the model,  the model is significantly   improved, model3 is utilized in Plot 4. Plot 3 in the Appendix demonstrates the correlations of the four variables in the preferred model. Table 2 in the   Appendix is a summary of model 3 that explains about 84% of the variability of the variable MPG.  
 
  
-Plot 4 in the Appendix shows the plot of the residuals. The plot shows some outliers that could be analyzed more carefully but overall, the fit of model3 and its residuals seem to satisfy basic requirement for a sound linear model to explain the variation of the variable mpg. 
+Plot 4 in the Appendix shows the plot of the residuals. The plot shows some outliers that could be analyzed more carefully but overall, the fit of model3 and   its residuals seem to satisfy basic requirement for a sound linear model to explain the variation of the variable MPG.  
 
 
 ## Anova:
@@ -101,21 +101,21 @@ anova(mod1, mod2, mod3, mod4, mod5)
 
 ## Conclusion:
 Is an automatic or manual transmission produce better miles per gallon (MPG) performance?  
-By analyzing the base data, ***manual transmission cars are better for MPG compared to automatic cars***. Although, when modeling with confounding variables like horsepower,   displacement and weight, the difference is not as significant as it seems in the beginning: a big part of the difference is explained by other variables.  
+By analyzing the base data, ***manual transmission cars are better for MPG compared to automatic cars***. Although, when modeling with confounding variables like horsepower,    displacement and weight, the difference is not as significant as it seems in the beginning: a big part of the difference is explained by other variables.  
 
 Is there a significant MPG difference between automatic and manual transmissions?  
-By analyzing the base data, when only transmission was used in the model, ***manual cars have a significant mpg increase of 7.245 overall***.  Although, when the variables horsepower and   weight are included, the manual car advantage drops to 2.084.  Transmission has the greatest impact with other variables contributing to a lesser degree on the mpg   measurement.   
+By analyzing the base data, when only transmission was used in the model, ***manual cars have a significant MPG increase of 7.245 overall***.  Although, when the variables   horsepower and   weight are included, the manual car advantage drops to 2.084.  Transmission has the greatest impact with other variables contributing to a lesser degree on the   MPG measurement.    
 
 ## Appendix (plots and tables):
 
 ### Plot 1 - Boxplot of MPG by transmission type 
 ```{r echo=TRUE}
-boxplot(mpg ~ am, data = mtcars, col = (c("red","blue")), ylab = "Miles Per Gallon", xlab = "Transmission Type") 
+boxplot(mpg ~ am, data = mtcars, names=c("automatic","manual"), col = (c("red","blue")), ylab = "Miles Per Gallon", xlab = "Transmission Type") 
 ```
 
 ### Plot 2 - Plot of weight impact on automatic and manual transmissions
 ```{r echo=TRUE}
-coplot(mpg ~ wt | as.factor(am), data = mtcars, panel = panel.smooth, rows = 1) 
+coplot(mpg ~ wt | as.factor(am), data = mtcars, xlab=c("automatic   <------------------>    manual"), panel = panel.smooth, rows = 1) 
 ```
 
 ### Plot 3 - Plot of correlation of the model
@@ -132,7 +132,7 @@ par(mfrow = c(2,2))
 plot(mod3)
 ```
 
-### Table 1 - T-Test table mpg for Automatic and Manual Transmission
+### Table 1 - T-Test table MPG for Automatic and Manual Transmission
 ```{r echo=TRUE}
 auto <- mtcars[am == "Automatic",] 
 man <- mtcars[am == "Manual",] 
