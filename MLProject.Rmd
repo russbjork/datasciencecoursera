@@ -1,0 +1,26 @@
+---
+title: "Machine Learning Project"
+author: "Russ Bjork"
+date: "12/26/2020"
+output: html_document
+---
+
+<body style="background-color:SkyBlue;">
+
+## Environment Setup
+```{r setup, include=FALSE, echo=FALSE}
+## 
+## Machine Learning Project
+##
+library(dplyr)
+library(knitr)
+library(ggplot2)
+library(AppliedPredictiveModeling)
+library(caret)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=4, fig.height=4)
+```
+
+## Project Overview:
+
+## Data loading and exploration:
