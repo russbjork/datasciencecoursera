@@ -12,15 +12,31 @@ output: html_document
 ## 
 ## Machine Learning Project
 ##
-library(dplyr)
-library(knitr)
 library(ggplot2)
 library(AppliedPredictiveModeling)
 library(caret)
+library(lattice)
+library(dplyr)
+library(readr)
+library(rattle)
+library(randomForest)
+library(rpart)
+library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.width=4, fig.height=4)
 ```
 
 ## Project Overview:
-
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount   of data about personal activity   relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about   themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people    regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal   will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts   correctly and incorrectly in 5 different ways.  More information is available from the website here:   
+http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).    
+  
+The training data for this project are available here:    
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv   
+  
+The test data are available here:   
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv   
+  
 ## Data loading and exploration:
+
+
+The training data set is made of 19622 observations on 160 columns. Many of the columns have NA values or blank values on almost every observation. The covariants with predictive value will be removed because they will not produce any information. The first seven columns give information about the people who did the test, and also timestamps. The first seven columns will be removed as they add no value to the models.
