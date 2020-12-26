@@ -7,7 +7,6 @@ output: html_document
 
 <body style="background-color:SkyBlue;">
 
-## Environment Setup
 ```{r setup, include=FALSE, echo=FALSE}
 ## 
 ## Machine Learning Project
@@ -37,6 +36,34 @@ The test data are available here:
 https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv   
   
 ## Data loading and exploration:
+The training data set is made of 19622 observations on 160 columns. Many of the columns have NA values or blank values on almost every   observation. The covariants with low or zero variability will be removed because they will not produce any information. The first seven columns   give information about the people who did the test, and also timestamps. The first seven columns will be removed as they add no value to the   models.  
 
 
-The training data set is made of 19622 observations on 160 columns. Many of the columns have NA values or blank values on almost every observation. The covariants with predictive value will be removed because they will not produce any information. The first seven columns give information about the people who did the test, and also timestamps. The first seven columns will be removed as they add no value to the models.
+## Data cleansing and tiddying:  
+All the variables containing NA or blanks are removed from the raw data.  Variables with very low or zero variability are removed as these   columns add no predictive value.  The first seven variables are being removed as they are descriptive of who and when regarding the event data   and serve no purpose in the prediction models.   
+
+
+The tidy data is prepared to be segmented into training and validation data sets, each comprised of 53 columns.  
+
+## Create training and validation sets:  
+From the tidy data, 3 data sets will be created.  The first is the training set.  The second in the validation set.  These are both created from   the original training data.  The third is the testing set.  The testing set comes from the original test data.  All sets of data have the   exact same set of cleanup/tidy procedures applied. All sets are comprised of 53 columns/covariants.  
+
+
+## Build the different models:
+In the following sections, we will test 3 different models : * classification tree * random forest * gradient boosting method
+
+In order to limit the effects of overfitting, and improve the efficicency of the models, we will use the *cross-validation technique. We will use 5 folds (usually, 5 or 10 can be used, but 10 folds gives higher run times with no significant increase of the accuracy).
+
+
+## Predictions from the different models:  
+
+Classification Tree generates an accuracy of 60.1% using cross-validation with 5 steps.  
+
+Random Forest generates an accuracy of 99.3% using cross-validation with 5 steps.  
+
+Gradient Boost generates an accuracy of 96.1% using cross-validation with 5 steps.  
+
+
+## Conclusion:  
+Based on the prediction outcomes, the Random Forest model (model 2) is the best model. Model 2 will be used to predict the values for "classe" for the test data set.
+

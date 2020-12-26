@@ -28,7 +28,7 @@ str(traindata)
 
 remove <- which(colSums(is.na(testdata) | testdata=="")>0.9*dim(testdata)[1]) 
 testdata <- testdata[,-remove]
-testdata <- testdata[,-1]
+testdata <- testdata[,-c(1:7)]
 dim(testdata)
 str(testdata)
 
@@ -66,20 +66,20 @@ plot(model3, main="Accuracy of Gradient Boost")
 
 ## Predictions from the different models
 ### Classification Tree
-pred <- predict(model1, newdata=validation)
-confmat1 <- confusionMatrix(as.factor(validation$classe), pred)
+pred1 <- predict(model1, newdata=validation)
+confmat1 <- confusionMatrix(as.factor(validation$classe), pred1)
 confmat1$table
 confmat1$overall[1]
 
 ### Random Forest
-pred <- predict(model2, newdata=validation)
-confmat2 <- confusionMatrix(as.factor(validation$classe), pred)
+pred2 <- predict(model2, newdata=validation)
+confmat2 <- confusionMatrix(as.factor(validation$classe), pred2)
 confmat2$table
 confmat2$overall[1]
 
 ### Gradient Boost
-pred <- predict(model3, newdata=validation)
-confmat3 <- confusionMatrix(as.factor(validation$classe), pred)
+pred3 <- predict(model3, newdata=validation)
+confmat3 <- confusionMatrix(as.factor(validation$classe), pred3)
 confmat3$table
 confmat3$overall[1]
 
@@ -89,3 +89,4 @@ predtest <- predict(model2,newdata=testdata)
 predtest
 critvars <- varImp(model2)
 critvars
+plot(predtest)
