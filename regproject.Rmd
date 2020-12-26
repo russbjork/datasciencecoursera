@@ -1,14 +1,16 @@
 ---
 title: "Regression Models Project"
 author: "Russ Bjork"
-date: "12/22/2020"
-output: html_document
+date: "12/24/2020"
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 <body style="background-color:SkyBlue;">
 
 ## Environment Setup
-```{r echo=TRUE}
+```{r echo=FALSE}
 ## 
 ## Regression Models Project
 ##
@@ -16,7 +18,7 @@ library(dplyr)
 library(ggplot2)
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(fig.width=12, fig.height=10)
+knitr::opts_chunk$set(fig.width=4, fig.height=4)
 ```
 
 
@@ -30,14 +32,14 @@ A linear regression analysis will be utilized to determine if there is a signifi
 
 
 ## Data loading and exploration:
-```{r echo=TRUE}
+```{r echo=FALSE}
 data(mtcars) 
 head(mtcars) 
-summary(mtcars)
+# summary(mtcars)
 ```
 
 ### Transform certain variables into factors 
-```{r echo=TRUE}
+```{r echo=FALSE}
 cyl  <- factor(mtcars$cyl) 
 vs   <- factor(mtcars$vs) 
 gear <- factor(mtcars$gear) 
@@ -47,19 +49,19 @@ am   <- factor(mtcars$am,labels=c("Automatic","Manual"))
 
 
 ### The range of the variable MPG and its quantiles: 
-```{r echo=TRUE}
+```{r echo=FALSE}
 summary(mtcars$mpg)
 ```
 
 ### Automatic Transmission MPG Summary
-```{r echo=TRUE}
+```{r echo=FALSE}
 data <- tapply(mtcars$mpg, am, summary)
 auto <- data[1]
 auto
 ```
 
 ### Manual Transmission MPG Summary
-```{r echo=TRUE}
+```{r echo=FALSE}
 data <- tapply(mtcars$mpg, am, summary)
 man <- data[2]
 man
@@ -76,11 +78,11 @@ Table 1 in the Appendix demonstrates that there is a significant difference in t
 cor(mtcars$mpg, mtcars$am, method = "pearson") #Transmission type
 cor(mtcars$mpg, mtcars$wt, method = "pearson") #Weight
 cor(mtcars$mpg, mtcars$hp, method = "pearson") #Horsepower
-cor.test(mtcars$mpg, mtcars$am, method = "pearson")
+#cor.test(mtcars$mpg, mtcars$am, method = "pearson")
 ```
 
 ### Linear models:
-```{r echo=TRUE}
+```{r echo=FALSE}
 mod1 <- lm(mpg ~ am , data = mtcars)  
 mod2 <- lm(mpg ~ am + wt, data = mtcars)  
 mod3 <- lm(mpg ~ am + wt + hp , data = mtcars)  
@@ -88,14 +90,10 @@ mod4 <- lm(mpg ~ am + wt + hp + disp, data = mtcars)
 mod5 <- lm(mpg ~ ., data = mtcars)  
 ```
 
-The variable MPG is analyzed as a function of the variable am (automatic/manual transmission).  Each subsequent variable is added one after another and   processed using the ANOVA routine (see the Anova section below) to find the simplest model.  This helps explains significantly the change in MPG. The variable   cyl variable is omitted for its high correlation with the variable disp. By adding the variables wt and hp to the model,  the model is significantly   improved, model3 is utilized in Plot 4. Plot 3 in the Appendix demonstrates the correlations of the four variables in the preferred model. Table 2 in the   Appendix is a summary of model 3 that explains about 84% of the variability of the variable MPG.  
-
- 
-Plot 4 in the Appendix shows the plot of the residuals. The plot shows some outliers that could be analyzed more carefully but overall, the fit of model3 and   its residuals seem to satisfy basic requirement for a sound linear model to explain the variation of the variable MPG.  
-
+The variable MPG is analyzed as a function of the variable am (automatic/manual transmission).  Each subsequent variable is added one after another and   processed using the ANOVA routine (see the Anova section below) to find the simplest model.  This helps explains significantly the change in MPG. The variable   cyl variable is omitted for its high correlation with the variable disp. By adding the variables wt and hp to the model,  the model is significantly   improved, model3 is utilized in Plot 4. Plot 3 in the Appendix demonstrates the correlations of the four variables in the preferred model. Table 2 in the   Appendix is a summary of model 3 that explains about 84% of the variability of the variable MPG. Plot 4 in the Appendix shows the plot of the residuals. The plot shows some outliers that could be analyzed more carefully but overall, the fit of model3 and its   residuals seem to satisfy basic requirement for a sound linear model to explain the variation of the variable MPG.  
 
 ## Anova:
-```{r echo=TRUE}
+```{r echo=FALSE}
 anova(mod1, mod2, mod3, mod4, mod5) 
 ```
 
@@ -107,19 +105,18 @@ Is there a significant MPG difference between automatic and manual transmissions
 By analyzing the base data, when only transmission was used in the model, ***manual cars have a significant MPG increase of 7.245 overall***.  Although, when the variables   horsepower and   weight are included, the manual car advantage drops to 2.084.  Transmission has the greatest impact with other variables contributing to a lesser degree on the   MPG measurement.    
 
 ## Appendix (plots and tables):
-
 ### Plot 1 - Boxplot of MPG by transmission type 
-```{r echo=TRUE}
+```{r echo=FALSE}
 boxplot(mpg ~ am, data = mtcars, names=c("automatic","manual"), col = (c("red","blue")), ylab = "Miles Per Gallon", xlab = "Transmission Type") 
 ```
 
 ### Plot 2 - Plot of weight impact on automatic and manual transmissions
-```{r echo=TRUE}
+```{r echo=FALSE}
 coplot(mpg ~ wt | as.factor(am), data = mtcars, xlab=c("automatic   <------------------>    manual"), panel = panel.smooth, rows = 1) 
 ```
 
 ### Plot 3 - Plot of correlation of the model
-```{r echo=TRUE}
+```{r echo=FALSE}
 mtcarsvars <- mtcars[, c(1, 9, 6, 4)]
 mar.orig <- par()$mar  # save the original values  
 par(mar = c(1, 1, 1, 1))  # set your new values  
@@ -127,19 +124,19 @@ pairs(mtcarsvars, panel = panel.smooth, col = 9 + mtcars$wt)
 ```
 
 ### Plot 4 - Plot of residuals of the model
-```{r echo=TRUE}
+```{r echo=FALSE}
 par(mfrow = c(2,2)) 
 plot(mod3)
 ```
 
 ### Table 1 - T-Test table MPG for Automatic and Manual Transmission
-```{r echo=TRUE}
+```{r echo=FALSE}
 auto <- mtcars[am == "Automatic",] 
 man <- mtcars[am == "Manual",] 
 t.test(auto$mpg, man$mpg)
 ```
 
 ### Table 2 - Summary of Model 3
-```{r echo=TRUE}
+```{r echo=FALSE}
 mod3
 ```
