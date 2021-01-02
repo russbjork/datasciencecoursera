@@ -1,0 +1,28 @@
+---
+title: "Simple Calculator Slide Show"
+subtitle: "(Hit Space Bar to Continue)"
+author: "Russ Bjork"
+date: "1/2/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Simple Calculator Preview
+
+```{r, echo=FALSE}
+library(leaflet)
+my_map <- leaflet() %>% addTiles() %>% addMarkers(lat=43.6954,lng=-116.3540,popup="This is my Home Town")
+my_map
+```
+
+## Simple Calculator Addition Demo
+
+## Simple Calculator Multiplication Demo
+
+## Simple Calculator Conclusion
+
+A map was created using Leaflet, a marker was placed to identify my home town.  I hope you enjoyed this very simple presentation of Leaflet.
