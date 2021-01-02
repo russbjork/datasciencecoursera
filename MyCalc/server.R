@@ -47,7 +47,7 @@ shinyServer(function(input, output) {
                 input$var1 
             }
             
-            paste("The calculation solution: ", data)
+            paste("The calculated solution = ", data)
             
         })
     })

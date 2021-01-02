@@ -27,6 +27,7 @@ shinyUI(fluidPage(
             selectInput("var3", "Select Computation Option:", 
                         c("Addition", "Subtraction", "Multiplication", "Division"),
                         selected = "Addition"),
+            br(),
             actionButton("compute", "Compute"),
             actionButton("clear", "Clear")
             
@@ -34,10 +35,14 @@ shinyUI(fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-            textOutput("selected_var1"),
-            textOutput("selected_var2"),
-            textOutput("selected_var3"),
-            textOutput("answer")
+            br(),br(),
+            h4(textOutput("selected_var1")),
+            br(),br(),
+            h4(textOutput("selected_var2")),
+            br(),br(),
+            h4(textOutput("selected_var3")),
+            br(),br(),
+            h3(strong(textOutput("answer")))
         )
     )
 ))
