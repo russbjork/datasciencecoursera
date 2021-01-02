@@ -21,6 +21,9 @@ will be utilized in a simple calculation
 and the results will be returned to the user  
 interface.
 
+
+***Start using shiny with your products today!!!***
+
 ## Simple Calculator Addition Demo
 
 ```{r echo=FALSE, out.width='100%'}
@@ -33,14 +36,11 @@ knitr::include_graphics('add.jpg')
 knitr::include_graphics('mult.jpg')
 ```
 
-## Simple Calculator Conclusion
+## MyCalc Embedded Application
 
-The MyCalc application demonstrates the power  
-and functionality of the shiny package.  
-Implementing a shiny interface facilitates  
-the creation of highly interactive and  
-enhanced products with R solutions.  
+The MyCalc application is embedded below:  
 
-https://russell-bjork.shinyapps.io/MyCalc/
+```{r, echo=FALSE}
+knitr::include_app("https://russell-bjork.shinyapps.io/MyCalc/", height = "400px")
+```
 
-***Start using shiny with your products today!!!***
