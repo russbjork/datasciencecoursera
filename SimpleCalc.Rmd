@@ -1,5 +1,5 @@
 ---
-title: "Simple Calculator Slide Show"
+title: "Simple Shiny Calculator"
 subtitle: "(Hit Space Bar to Continue)"
 author: "Russ Bjork"
 date: "1/2/2021"
@@ -13,16 +13,34 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Simple Calculator Preview
 
-```{r, echo=FALSE}
-library(leaflet)
-my_map <- leaflet() %>% addTiles() %>% addMarkers(lat=43.6954,lng=-116.3540,popup="This is my Home Town")
-my_map
-```
+The MyCalc application is a very simple  
+calculator. The calculator provides the  
+ability to perform calculations on selected  
+numeric values.  The user selected values  
+will be utilized in a simple calculation  
+and the results will be returned to the user  
+interface.
 
 ## Simple Calculator Addition Demo
 
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('add.jpg')
+```
+
 ## Simple Calculator Multiplication Demo
+
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('mult.jpg')
+```
 
 ## Simple Calculator Conclusion
 
-A map was created using Leaflet, a marker was placed to identify my home town.  I hope you enjoyed this very simple presentation of Leaflet.
+The MyCalc application demonstrates the power  
+and functionality of the shiny package.  
+Implementing a shiny interface facilitates  
+the creation of highly interactive and  
+enhanced products with R solutions.  
+
+https://russell-bjork.shinyapps.io/MyCalc/
+
+***Start using shiny with your products today!!!***

@@ -16,7 +16,7 @@ shinyServer(function(input, output) {
         paste("The first number you selected: ", input$var1)
     })
     output$selected_var2 <- renderText({ 
-        paste("The first number you selected: ", input$var2)
+        paste("The second number you selected: ", input$var2)
     })
     output$selected_var3 <- renderText({ 
         paste("The computation method you selected: ", input$var3)
