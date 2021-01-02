@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/709239/9c9ee5d20cdb41198765b5ccb0c40b87
+bundleId: https://api.rpubs.com/api/v1/document/709239/9c9ee5d20cdb41198765b5ccb0c40b87
+url: http://rpubs.com/russbjork/709239
+when: 1609603327.96273
