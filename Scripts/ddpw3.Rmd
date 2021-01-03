@@ -1,0 +1,29 @@
+---
+title: "Ploty Slide Show"
+subtitle: "(Hit Space Bar to Continue)"
+author: "Russ Bjork"
+date: "1/3/2021"
+output: ioslides_presentation
+---
+
+```{r setup, message=FALSE, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Ploty Output
+
+```{r, message=FALSE, echo=FALSE}
+library(plotly)
+library(ggplot2)
+library(dplyr)
+defaultW <- getOption("warn") 
+options(warn = -1) 
+fig <- plot_ly(mtcars, x = ~disp, y = ~mpg, color = ~hp, type = "scatter")
+fig
+options(warn = defaultW)
+```
+
+## Ploty Conclusion
+
+A plot was created using Ploty.  This plot generated MPG by displacement with coloring based on horsepower from the mtcars data.  I hope you enjoyed this very simple presentation of Ploty.
