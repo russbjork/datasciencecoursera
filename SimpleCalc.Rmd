@@ -1,0 +1,46 @@
+---
+title: "Simple Shiny Calculator"
+subtitle: "(Hit Space Bar to Continue)"
+author: "Russ Bjork"
+date: "1/2/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Simple Calculator Preview
+
+The MyCalc application is a very simple  
+calculator. The calculator provides the  
+ability to perform calculations on selected  
+numeric values.  The user selected values  
+will be utilized in a simple calculation  
+and the results will be returned to the user  
+interface.
+
+
+***Start using shiny with your products today!!!***
+
+## Simple Calculator Addition Demo
+
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('add.jpg')
+```
+
+## Simple Calculator Multiplication Demo
+
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('mult.jpg')
+```
+
+## MyCalc Embedded Application
+
+The MyCalc application is embedded below:  
+
+```{r, echo=FALSE}
+knitr::include_app("https://russell-bjork.shinyapps.io/MyCalc/", height = "400px")
+```
+

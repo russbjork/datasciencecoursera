@@ -1,0 +1,51 @@
+---
+title: "MyCalc Documentation"
+subtitle: "Developing Data Products Project"
+author: "Russ Bjork"
+date: "1/2/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+ 
+##    
+
+  
+This R Markdown document is made interactive using Shiny. Unlike the more traditional  
+workflow of creating static reports, you can now create documents that allow your readers   
+to change the assumptions underlying your analysis and see the results immediately.   
+
+To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).  
+
+## MyCalc Overview
+
+The MyCalc application is a very simple calculator. The calculator provides the ability  
+to perform calculations on selected numeric values.  The user selected values will be   
+utilized in a simple calculation and the results will be returned to the user interface.
+
+## MyCalc Usage
+
+When the MyCalc application is rendered, a simple user interface will be presented.    
+Start by first selecting the first numeric value from the 'select value 1' dropdown.    
+The next step is to select the second numeric value from the 'select value 2' dropdown.    
+After selecting values 1 and 2, Use the 'select computation method' dropdown to choose the   
+preferred mathematical computation.  Finally, click on the 'Compute' button to run the computation.  
+All values are reactively displayed in the main output panel as selections are made.    
+Click the 'Clear' button to clear the computation output.  Enjoy!!!  
+
+## MyCalc Embedded Application
+
+The MyCalc application is embedded below.  This is a direct link to the published   
+application on the RStudio Shiny Apps IO server:  
+
+```{r, echo=FALSE}
+knitr::include_app("https://russell-bjork.shinyapps.io/MyCalc/", height = "400px")
+```
+
+
+
+
+

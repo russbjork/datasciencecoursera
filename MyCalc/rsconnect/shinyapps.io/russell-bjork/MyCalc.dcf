@@ -1,0 +1,12 @@
+name: MyCalc
+title: MyCalc
+username:
+account: russell-bjork
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3438870
+bundleId: 4050725
+url: https://russell-bjork.shinyapps.io/MyCalc/
+when: 1609601001.80156
+asMultiple: FALSE
+asStatic: FALSE
